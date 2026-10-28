@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gen-Z Mart</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f3f5f9; color: #172033; }
+    header { background: #172b4d; color: white; padding: 18px; }
+    header h1 { margin: 0 0 12px; }
+    .search { width: 100%; padding: 13px; border: 0; border-radius: 8px; font-size: 16px; }
+    nav { display: flex; gap: 10px; padding: 12px; overflow-x: auto; background: white; }
+    nav button { border: 0; background: #e7edfa; padding: 10px 15px; border-radius: 20px; white-space: nowrap; }
+    main { padding: 16px; }
+    .banner { background: #dce8ff; padding: 22px; border-radius: 12px; margin-bottom: 18px; }
+    .banner h2 { margin-top: 0; }
+    .products { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    .card { background: white; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px #00000010; }
+    .card img { width: 100%; height: 130px; object-fit: contain; background: #f7f8fa; border-radius: 8px; }
+    .card h3 { font-size: 15px; }
+    .price { font-size: 18px; font-weight: bold; }
+    .card button { width: 100%; border: 0; border-radius: 8px; padding: 11px; background: #1769ff; color: white; font-weight: bold; }
+    footer { text-align: center; padding: 24px; color: #667085; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>gen-Z Mart 🛍️</h1>
+    <p>Discover something you love.</p>
+    <input id="search" class="search" placeholder="Search products..." oninput="filterProducts()">
+  </header>
+  <nav>
+    <button onclick="showCategory('All')">All</button>
+    <button onclick="showCategory('Fashion')">Fashion</button>
+    <button onclick="showCategory('Sports')">Sports</button>
+    <button onclick="showCategory('Accessories')">Accessories</button>
+    <button onclick="showCategory('Electronics')">Electronics</button>
+  </nav>
+  <main>
+    <section class="banner">
+      <h2>Your next favourite find ✨</h2>
+      <p>Browse our sample collection. Product availability and prices must be confirmed before ordering.</p>
+    </section>
+    <h2>Featured products</h2>
+    <div id="products" class="products"></div>
+    <p id="empty" hidden>No matching products yet. Check back soon!</p>
+  </main>
+  <footer>© 2026 gen-Z Mart</footer>
+  <script>
+    const items = [
+      {name:"Classic Sports Bottle",category:"Sports",price:299,image:"https://placehold.co/300x200?text=Sports+Bottle"},
+      {name:"Everyday Backpack",category:"Accessories",price:699,image:"https://placehold.co/300x200?text=Backpack"},
+      {name:"Wireless Earphones",category:"Electronics",price:999,image:"https://placehold.co/300x200?text=Earphones"},
+      {name:"Casual T-Shirt",category:"Fashion",price:399,image:"https://placehold.co/300x200?text=T-Shirt"}
+    ];
+    let category = "All";
+    function render(list) {
+      const area = document.getElementById("products");
+      area.innerHTML = "";
+      list.forEach(p => {
+        const card = document.createElement("article");
+        card.className = "card";
+        const img = document.createElement("img");
+        img.src = p.image;
+        img.alt = p.name;
+        const name = document.createElement("h3");
+        name.textContent = p.name;
+        const price = document.createElement("p");
+        price.className = "price";
+        price.textContent = "₹" + p.price;
+        const button = document.createElement("button");
+        button.textContent = "Request order";
+        button.onclick = () => alert("Sample product only. Ordering will be enabled after secure setup.");
+        card.append(img, name, price, button);
+        area.appendChild(card);
+      });
+      document.getElementById("empty").hidden = list.length > 0;
+    }
+    function filterProducts() {
+      const q = document.getElementById("search").value.toLowerCase();
+      render(items.filter(p =>
+        (category === "All" || p.category === category) &&
+        p.name.toLowerCase().includes(q)
+      ));
+    }
+    function showCategory(c) {
+      category = c;
+      filterProducts();
+    }
+    render(items);
+  </script>
+</body>
+</html>
